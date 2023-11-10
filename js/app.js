@@ -717,30 +717,30 @@ function wheelScreen(event) {
 
 
 
-wheelScreens.addEventListener('wheel', function (event) {
+// wheelScreens.addEventListener('wheel', function (event) {
 
-	if (lockWheel) {
+// 	if (lockWheel) {
 
-		lockWheel = false;
+// 		lockWheel = false;
 
-		// console.log(event.deltaY);
-		// setTimeout(() => {
-		// 	lockWheel = true;
-		// }, speedSlider);
+// 		// console.log(event.deltaY);
+// 		// setTimeout(() => {
+// 		// 	lockWheel = true;
+// 		// }, speedSlider);
 
-		if (event.deltaY > 0) {
-			screenSlider.slideNext();
-		} else {
-			screenSlider.slidePrev();
-		}
+// 		if (event.deltaY > 0) {
+// 			screenSlider.slideNext();
+// 		} else {
+// 			screenSlider.slidePrev();
+// 		}
 
-		setTimeout(() => {
-			lockWheel = true;
-		}, speedSlider);
-	}
+// 		setTimeout(() => {
+// 			lockWheel = true;
+// 		}, speedSlider);
+// 	}
 
 
-})
+// })
 
 /* 
 событие wheel как бы заменят собой скролл, 
