@@ -667,10 +667,10 @@ let screenSlider = new Swiper('.screen', {
 	observeParents: true,
 	observeSlideChildren: true,
 
-	navigation: {
-		nextEl: '.screen__next',
-		prevEl: '.screen__prev'
-	},
+	// navigation: {
+	// 	nextEl: '.screen__next',
+	// 	prevEl: '.screen__prev'
+	// },
 
 	pagination: {
 		el: '.screen__pagination',
@@ -687,25 +687,52 @@ let screenSlider = new Swiper('.screen', {
 
 
 const screenSlides = document.querySelectorAll('.screen__slide');
-// const wheelScreen = document.querySelector('.screen');
 let lockWheel = true;
-
 
 for (let index = 0; index < screenSlides.length; index++) {
 	const screenSlide = screenSlides[index];
 	screenSlide.addEventListener('wheel', wheelScreen);
 }
 
-
 function wheelScreen(event) {
+
 	if (lockWheel) {
 
 		lockWheel = false;
 
-		if (event.deltaY > 0) {
-			screenSlider.slideNext();
+		// находим элемент с потенциальным скроллом
+		const screenContent = event.currentTarget.querySelector('.screen__content');
+
+		if (screenContent.scrollHeight <= screenContent.clientHeight) {
+			// если у элемента нет скролла, то определяем куда пролистывать
+
+			if (event.deltaY > 0) {
+				screenSlider.slideNext();
+			} else {
+				screenSlider.slidePrev();
+			}
+
 		} else {
-			screenSlider.slidePrev();
+
+			// получаем полную высоту элемента
+			let contentAllHeight = screenContent.scrollHeight;
+
+			// высота окна
+			let contentHeight = screenContent.clientHeight;
+
+			// получаем текущее значение скролла
+			let scrollContent = screenContent.scrollTop;
+
+			// если скролл на "нуле" и крутим колесо мыши назад,
+			// то перелистываем слайд назад
+			if ((scrollContent <= 0) && (event.deltaY < 0)) {
+				screenSlider.slidePrev();
+
+				// если скролл прокручен до максимума и крутим колесо вперед,
+				// то перелистываем слайд вперед
+			} else if ((contentAllHeight == contentHeight + scrollContent) && (event.deltaY > 0)) {
+				screenSlider.slideNext();
+			}
 		}
 
 		setTimeout(() => {
@@ -714,7 +741,7 @@ function wheelScreen(event) {
 	}
 }
 
-
+// есть ли скролл у контента? если нету - вызываем метод next/prev
 
 
 // wheelScreens.addEventListener('wheel', function (event) {
@@ -761,4 +788,10 @@ function wheelScreen(event) {
 
 
 ФУНКЦИЮ ВЕШАТЬ НА КАЖДЫЙ СЛАЙД!!! ЧЕРЕЗ ЦИКЛ
+
+clientHeight - высота окна
+scrollHeight - полная высота элемента
+
+
+
 */
